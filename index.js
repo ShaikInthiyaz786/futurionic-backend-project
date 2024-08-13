@@ -1,8 +1,12 @@
 import express from "express";
-import { connection } from "./config/database.js"; 
+import userRoutes from "./routes/userRoutes.js";
+import { connection } from "./config/database.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(express.json()); // Parse JSON request bodies
+app.use('/users', userRoutes);
 
 const startServer = async () => {
   try {
