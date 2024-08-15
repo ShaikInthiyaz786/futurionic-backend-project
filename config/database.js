@@ -5,32 +5,29 @@ import { userPermissionModel } from "../models/userPermission.js";
 import { modulePermissionModel } from "../models/modulePermission.js";
 import { userGroupModel } from "../models/userGroup.js";
 
-export const connection = async () => {
-  const sequelize = new Sequelize('testDB', 'postgres', 'Inthiyaz9293', {
+const sequelize = new Sequelize('testDB', 'postgres', 'Inthiyaz9293', {
     host: 'localhost',
     dialect: 'postgres',
-  });
+});
 
-  let User, UserRole, UserPermission, ModulePermission, UserGroup;
+export const User = userModel(sequelize);
+export const UserRole = userRoleModel(sequelize);
+export const UserPermission = userPermissionModel(sequelize);
+export const ModulePermission = modulePermissionModel(sequelize);
+export const UserGroup = userGroupModel(sequelize);
 
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
+export const connection = async () => {
+    try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
 
-    // Define models
-    User = userModel(sequelize);
-    UserRole = userRoleModel(sequelize);
-    UserPermission = userPermissionModel(sequelize);
-    ModulePermission = modulePermissionModel(sequelize);
-    UserGroup = userGroupModel(sequelize);
-
-    // Sync models with the database
-    await sequelize.sync();
-    console.log('Tables created successfully.');
-    
-    return sequelize; // Return sequelize instance if needed
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-    throw error; // Rethrow error to handle it in server startup
-  }
+        // Sync models with the database
+        await sequelize.sync();
+        console.log('Tables created successfully.');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
+        throw error;
+    }
 };
+
+export default sequelize;

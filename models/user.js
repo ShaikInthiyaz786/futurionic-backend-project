@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 export const userModel = (sequelize) => {
-    const { DataTypes } = Sequelize; // Destructure DataTypes from Sequelize
+    const { DataTypes } = Sequelize;
 
     return sequelize.define("user", {
         username: {
